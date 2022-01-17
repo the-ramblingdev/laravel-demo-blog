@@ -1,36 +1,65 @@
+
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog of TheRamblingDev</title>
+    <meta name="author" content="name">
+    <meta name="description" content="description here">
+    <meta name="keywords" content="keywords,here">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/> <!--Replace with your tailwind.css once created-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css" rel="stylesheet">
+    <style>
+        .smooth {transition: box-shadow 0.3s ease-in-out;}
+        ::selection{background-color: aliceblue}
+    </style>
+</head>
+<body class="bg-white font-sans leading-normal tracking-normal">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+@include('layouts.header')
 
-        <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+@yield('content')
 
-        <!-- Styles -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+@include('layouts.footer')
 
-        <!-- Scripts -->
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
+<script>
+    /* Progress bar */
+    //Source: https://alligator.io/js/progress-bar-javascript-css-variables/
+    var h = document.documentElement,
+        b = document.body,
+        st = 'scrollTop',
+        sh = 'scrollHeight',
+        progress = document.querySelector('#progress'),
+        scroll;
+    var scrollpos = window.scrollY;
+    var header = document.getElementById("header");
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+    document.addEventListener('scroll', function() {
+
+        /*Refresh scroll % width*/
+        scroll = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+        progress.style.setProperty('--scroll', scroll + '%');
+
+        /*Apply classes for slide in bar*/
+        scrollpos = window.scrollY;
+
+        if(scrollpos > 100){
+            header.classList.remove("hidden");
+            header.classList.remove("fadeOutUp");
+            header.classList.add("slideInDown");
+        }
+        else {
+            header.classList.remove("slideInDown");
+            header.classList.add("fadeOutUp");
+            header.classList.add("hidden");
+        }
+
+    });
+
+</script>
+
+</body>
 </html>
